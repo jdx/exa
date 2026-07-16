@@ -1,5 +1,3 @@
-use std::iter;
-
 use nu_ansi_term::{AnsiString as ANSIString, Style};
 
 use crate::fs::fields as f;
@@ -30,7 +28,7 @@ impl PermissionsPlusRender for Option<f::PermissionsPlus> {
                 contents: chars.into(),
             }
         } else {
-            let chars: Vec<_> = iter::repeat(colours.dash().paint("-")).take(10).collect();
+            let chars: Vec<_> = std::iter::repeat_n(colours.dash().paint("-"), 10).collect();
             TextCell {
                 width: DisplayWidth::from(chars.len()),
                 contents: chars.into(),
@@ -86,7 +84,7 @@ impl RenderPermissions for Option<f::Permissions> {
                     p.other_execute_bit(colours),
                 ]
             }
-            None => iter::repeat(colours.dash().paint("-")).take(9).collect(),
+            None => std::iter::repeat_n(colours.dash().paint("-"), 9).collect(),
         }
     }
 }

@@ -366,12 +366,12 @@ EXIT STATUSES
 AUTHOR
 ======
 
-exa is maintained by Christina Sørensen and many other contributors.
+exa is maintained by jdx and contributors.
 
 **Source code:** `https://github.com/jdx/exa` \
 **Contributors:** `https://github.com/jdx/exa/graphs/contributors`
 
-Our infinite thanks to Benjamin ‘ogham’ Sago and all the other contributors of exa, from which exa was forked.
+Our infinite thanks to Benjamin ‘ogham’ Sago and all contributors to the original exa project.
 
 SEE ALSO
 ========

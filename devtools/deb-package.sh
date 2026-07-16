@@ -110,11 +110,11 @@ Source: https://github.com/jdx/exa/releases
 
 Files: *
 License: MIT
-Copyright: 2023 Christina Sørensen <christina@cafkafk.com>
+Copyright: 2014 Benjamin Sago
 
 Files: debian/*
 License: MIT
-Copyright: 2023 Christina Sørensen <christina@cafkafk.com>
+Copyright: 2026 jdx
 
 License: MIT
  Permission is hereby granted, free of charge, to any person obtaining a copy
