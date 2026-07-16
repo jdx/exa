@@ -57,8 +57,7 @@ jobs:
             PATH="/root/.cargo/bin:/usr/pkg/sbin:/usr/pkg/bin:$PATH"
             PKG_PATH="https://ftp.netbsd.org/pub/pkgsrc/packages/NetBSD/amd64/10.0/All/"
             export PATH PKG_PATH
-            /usr/sbin/pkg_add pkgin
-            pkgin -y install rust git
+            /usr/sbin/pkg_add rust git
             cargo install cargo-hack
             git config --global --add safe.directory /home/runner/work/exa/exa
           run: |

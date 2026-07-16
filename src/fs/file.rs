@@ -17,7 +17,6 @@ use std::time::SystemTime;
 
 use chrono::prelude::*;
 
-#[cfg(unix)]
 use crate::fs::dir::Dir;
 use crate::fs::feature::xattr;
 use crate::fs::feature::xattr::{Attribute, FileAttributes};
