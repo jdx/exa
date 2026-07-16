@@ -338,11 +338,8 @@ impl TimeFormat {
                 let empty_non_recent_format_msg = "Custom timestamp format is empty, \
                     please supply a chrono format string after the plus sign.";
                 let non_recent = lines.next().expect(empty_non_recent_format_msg);
-                let non_recent = if non_recent.is_empty() {
-                    panic!("{}", empty_non_recent_format_msg)
-                } else {
-                    non_recent.to_owned()
-                };
+                assert!(!non_recent.is_empty(), "{empty_non_recent_format_msg}");
+                let non_recent = non_recent.to_owned();
 
                 // line 2 will be None when:
                 //   - there is not a single `\n`
@@ -352,11 +349,8 @@ impl TimeFormat {
                 let empty_recent_format_msg = "Custom timestamp format for recent files is empty, \
                     please supply a chrono format string at the second line.";
                 let recent = lines.next().map(|rec| {
-                    if rec.is_empty() {
-                        panic!("{}", empty_recent_format_msg)
-                    } else {
-                        rec.to_owned()
-                    }
+                    assert!(!rec.is_empty(), "{empty_recent_format_msg}");
+                    rec.to_owned()
                 });
 
                 Ok(Self::Custom { non_recent, recent })
