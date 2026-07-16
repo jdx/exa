@@ -37,7 +37,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v14
+        uses: DeterminateSystems/nix-installer-action@v22
       - name: Setup Nix cache
         uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Nix Flake Check
@@ -52,7 +52,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v14
+        uses: DeterminateSystems/nix-installer-action@v22
       - name: Setup Nix cache
         uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Nix Build
