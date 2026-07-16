@@ -21,12 +21,7 @@ echo "build man pages"
 just man
 
 declare -A TARGETS
-TARGETS["amd64"]="x86_64-unknown-linux-musl"
-TARGETS["arm64"]="aarch64-unknown-linux-gnu"
-TARGETS["armhf"]="arm-unknown-linux-gnueabihf"
-
-echo "download release notes"
-RELEASE_NOTES=$(curl -s "${REPO_URL}/releases/tag/${TAG}")
+TARGETS["amd64"]="x86_64-unknown-linux-gnu"
 
 for ARCH in "${!TARGETS[@]}"; do
     echo "building ${ARCH} package:"
@@ -35,14 +30,13 @@ for ARCH in "${!TARGETS[@]}"; do
     DEB_PACKAGE="${NAME}_${VERSION}_${ARCH}.deb"
 
     TARGET=${TARGETS[$ARCH]}
+    ARCHIVE="${NAME}-${TAG}-${TARGET}.tar.gz"
     echo " -> downloading ${TARGET} archive"
-    wget -q -O "${ARCH}.tar.gz" "${REPO_URL}/releases/download/${TAG}/${NAME}_${TARGET}.tar.gz"
+    wget -q "${REPO_URL}/releases/download/${TAG}/${ARCHIVE}"
+    wget -q "${REPO_URL}/releases/download/${TAG}/${ARCHIVE}.sha256"
 
     echo " -> verifying ${TARGET} archive"
-    CHECKSUM=$(md5sum "${ARCH}.tar.gz" | cut -d ' ' -f 1)
-    echo "    checksum: ${CHECKSUM}"
-    grep -q "${CHECKSUM}" <<< "${RELEASE_NOTES}" \
-        || (echo "checksum mismatch" && exit 1)
+    sha256sum --check "${ARCHIVE}.sha256"
     echo "    checksum ok"
 
     echo " -> creating directory structure"
@@ -59,8 +53,8 @@ for ARCH in "${!TARGETS[@]}"; do
     chmod 755 -R "${DEB_TMP_DIR}"
 
     echo " -> extract executable"
-    tar -xzf "${ARCH}.tar.gz"
-    cp ${NAME} "${DEB_TMP_DIR}${DESTDIR}"
+    tar -xzf "${ARCHIVE}" --strip-components=1 "${NAME}-${TAG}-${TARGET}/${NAME}"
+    cp "${NAME}" "${DEB_TMP_DIR}${DESTDIR}"
     chmod 755 "${DEB_TMP_DIR}${DESTDIR}/${NAME}"
 
     echo " -> compress man pages"
@@ -141,7 +135,7 @@ EOM
     dpkg-deb --build --root-owner-group "${DEB_TMP_DIR}" > /dev/null
 
     echo " -> cleanup"
-    rm -rf "${DEB_TMP_DIR}" "${ARCH}.tar.gz" "${NAME}"
+    rm -rf "${DEB_TMP_DIR}" "${ARCHIVE}" "${ARCHIVE}.sha256" "${NAME}"
 
     # This does not work on every architecture, and
     #          i'm verifying on the repo host anyway thus the || true

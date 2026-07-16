@@ -30,14 +30,14 @@ jobs:
         rust: [1.88.0, stable, beta, nightly]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
       - name: Install Rust toolchain
         run: |
-          rustup toolchain install ${{ matrix.rust }} --profile minimal
+          rustup toolchain install ${{ matrix.rust }} --profile minimal --component rustfmt,clippy
           rustup default ${{ matrix.rust }}
       - uses: Swatinem/rust-cache@v2
       - name: Install cargo-hack
-        uses: nick-fields/retry@v3
+        uses: nick-fields/retry@v4
         with:
           timeout_minutes: 5
           max_attempts: 5
