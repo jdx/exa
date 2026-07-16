@@ -28,14 +28,14 @@ jobs:
     name: Flake Checker
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@v9
   check:
     name: Check Nix Flake
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v14
       - name: Setup Nix cache
@@ -50,7 +50,7 @@ jobs:
         target: [x86_64-linux]
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v14
       - name: Setup Nix cache
