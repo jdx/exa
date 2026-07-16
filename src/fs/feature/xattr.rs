@@ -427,8 +427,7 @@ mod extended_attrs {
     // Get a vector of all attribute names and values on `path`
     #[cfg(any(target_os = "macos", target_os = "linux"))]
     pub fn attributes(path: &Path, follow_symlinks: bool) -> io::Result<Vec<Attribute>> {
-        let path = CString::new(path.as_os_str().as_bytes())
-            .map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
+        let path = CString::new(path.as_os_str().as_bytes()).map_err(io::Error::other)?;
         let attr_names = list_attributes(&path, follow_symlinks, os::list_xattr)?;
 
         #[cfg(target_os = "linux")]
@@ -441,8 +440,7 @@ mod extended_attrs {
         let mut attrs = Vec::with_capacity(attr_names.len());
         for attr_name in attr_names {
             if let Some(name) = attr_name.to_str() {
-                let attr_name =
-                    CString::new(name).map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
+                let attr_name = CString::new(name).map_err(io::Error::other)?;
                 let value = get_attribute(&path, &attr_name, follow_symlinks, os::get_xattr)?;
                 attrs.push(Attribute {
                     name: name.to_string(),
@@ -471,8 +469,7 @@ mod extended_attrs {
     ) -> io::Result<()> {
         for attr_name in attr_names {
             if let Some(name) = attr_name.to_str() {
-                let attr_name =
-                    CString::new(name).map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
+                let attr_name = CString::new(name).map_err(io::Error::other)?;
                 let value = get_attribute(path, &attr_name, follow_symlinks, getter)?;
                 attrs.push(Attribute {
                     name: format!("{namespace}::{name}"),
@@ -487,8 +484,7 @@ mod extended_attrs {
     pub fn attributes(path: &Path, follow_symlinks: bool) -> io::Result<Vec<Attribute>> {
         use libc::EPERM;
 
-        let path = CString::new(path.as_os_str().as_bytes())
-            .map_err(|e| io::Error::new(io::ErrorKind::Other, e))?;
+        let path = CString::new(path.as_os_str().as_bytes()).map_err(io::Error::other)?;
         let attr_names_system = list_attributes(&path, follow_symlinks, os::list_system_xattr)
             .or_else(|err| {
                 // Reading of attributes in the system namespace is only supported for root
@@ -608,10 +604,7 @@ fn display_lastuseddate(attribute: &Attribute) -> Option<String> {
 // com.apple.macl is a two byte flag followed by a uuid for the application
 #[cfg(target_os = "macos")]
 fn format_macl(value: &[u8]) -> String {
-    const HEX: [u8; 16] = [
-        b'0', b'1', b'2', b'3', b'4', b'5', b'6', b'7', b'8', b'9', b'a', b'b', b'c', b'd', b'e',
-        b'f',
-    ];
+    const HEX: [u8; 16] = *b"0123456789abcdef";
     const GROUPS: [(usize, usize, u8); 6] = [
         (0, 4, b';'),
         (5, 13, b'-'),
@@ -666,7 +659,7 @@ struct BorrowedWriter<'a> {
     pub buffer: &'a mut Vec<u8>,
 }
 
-impl<'a> io::Write for BorrowedWriter<'a> {
+impl io::Write for BorrowedWriter<'_> {
     fn write(&mut self, buf: &[u8]) -> io::Result<usize> {
         self.buffer.write(buf)
     }

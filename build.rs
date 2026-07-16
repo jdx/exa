@@ -20,8 +20,8 @@ use chrono::prelude::*;
 fn main() -> io::Result<()> {
     #![allow(clippy::write_with_newline)]
 
-    let tagline = "eza - A modern, maintained replacement for ls";
-    let url = "https://github.com/eza-community/eza";
+    let tagline = "exa - A modern, maintained replacement for ls";
+    let url = "https://github.com/jdx/exa";
 
     let ver = if is_debug_build() {
         format!(
@@ -102,7 +102,7 @@ fn version_string() -> String {
 
     let feats = nonstandard_features_string();
     if !feats.is_empty() {
-        ver.push_str(&format!(" [{}]", &feats));
+        ver.push_str(&format!(" [{feats}]"));
     }
 
     ver
@@ -110,7 +110,7 @@ fn version_string() -> String {
 
 /// Finds whether a feature is enabled by examining the Cargo variable.
 fn feature_enabled(name: &str) -> bool {
-    env::var(format!("CARGO_FEATURE_{}", name))
+    env::var(format!("CARGO_FEATURE_{name}"))
         .map(|e| !e.is_empty())
         .unwrap_or(false)
 }

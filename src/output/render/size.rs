@@ -1,6 +1,6 @@
 use locale::Numeric as NumericLocale;
 use nu_ansi_term::Style;
-use number_prefix::Prefix;
+use unit_prefix::Prefix;
 
 use crate::fs::fields as f;
 use crate::output::cell::{DisplayWidth, TextCell};
@@ -15,7 +15,7 @@ impl f::Size {
         numerics: &NumericLocale,
         color_scale_info: Option<ColorScaleInformation>,
     ) -> TextCell {
-        use number_prefix::NumberPrefix;
+        use unit_prefix::NumberPrefix;
 
         let size = match self {
             Self::Some(s) => s,
@@ -134,7 +134,7 @@ pub mod test {
     use locale::Numeric as NumericLocale;
     use nu_ansi_term::Color::*;
     use nu_ansi_term::Style;
-    use number_prefix::Prefix;
+    use unit_prefix::Prefix;
 
     struct TestColours;
 

@@ -210,16 +210,13 @@ impl TerminalWidth {
 impl RowThreshold {
     fn deduce<V: Vars>(vars: &V) -> Result<Self, OptionsError> {
         if let Some(columns) = vars
-            .get_with_fallback(vars::EZA_GRID_ROWS, vars::EXA_GRID_ROWS)
+            .get(vars::EXA_GRID_ROWS)
             .and_then(|s| s.into_string().ok())
         {
             match columns.parse() {
                 Ok(rows) => Ok(Self::MinimumRows(rows)),
                 Err(e) => {
-                    let source = NumberSource::Env(
-                        vars.source(vars::EZA_GRID_ROWS, vars::EXA_GRID_ROWS)
-                            .unwrap(),
-                    );
+                    let source = NumberSource::Env(vars::EXA_GRID_ROWS);
                     Err(OptionsError::FailedParse(columns, source, e))
                 }
             }
@@ -252,9 +249,7 @@ impl Columns {
     fn deduce<V: Vars>(matches: &MatchedFlags<'_>, vars: &V) -> Result<Self, OptionsError> {
         let time_types = TimeTypes::deduce(matches)?;
 
-        let no_git_env = vars
-            .get_with_fallback(vars::EXA_OVERRIDE_GIT, vars::EZA_OVERRIDE_GIT)
-            .is_some();
+        let no_git_env = vars.get(vars::EXA_OVERRIDE_GIT).is_some();
 
         let git = matches.has(&flags::GIT)? && !matches.has(&flags::NO_GIT)? && !no_git_env;
         let subdir_git_repos =
@@ -343,11 +338,8 @@ impl TimeFormat {
                 let empty_non_recent_format_msg = "Custom timestamp format is empty, \
                     please supply a chrono format string after the plus sign.";
                 let non_recent = lines.next().expect(empty_non_recent_format_msg);
-                let non_recent = if non_recent.is_empty() {
-                    panic!("{}", empty_non_recent_format_msg)
-                } else {
-                    non_recent.to_owned()
-                };
+                assert!(!non_recent.is_empty(), "{empty_non_recent_format_msg}");
+                let non_recent = non_recent.to_owned();
 
                 // line 2 will be None when:
                 //   - there is not a single `\n`
@@ -357,11 +349,8 @@ impl TimeFormat {
                 let empty_recent_format_msg = "Custom timestamp format for recent files is empty, \
                     please supply a chrono format string at the second line.";
                 let recent = lines.next().map(|rec| {
-                    if rec.is_empty() {
-                        panic!("{}", empty_recent_format_msg)
-                    } else {
-                        rec.to_owned()
-                    }
+                    assert!(!rec.is_empty(), "{empty_recent_format_msg}");
+                    rec.to_owned()
                 });
 
                 Ok(Self::Custom { non_recent, recent })
@@ -450,14 +439,13 @@ impl TimeTypes {
 
 impl ColorScaleOptions {
     pub fn deduce<V: Vars>(matches: &MatchedFlags<'_>, vars: &V) -> Result<Self, OptionsError> {
-        let min_luminance =
-            match vars.get_with_fallback(vars::EZA_MIN_LUMINANCE, vars::EXA_MIN_LUMINANCE) {
-                Some(var) => match var.to_string_lossy().parse() {
-                    Ok(luminance) if (-100..=100).contains(&luminance) => luminance,
-                    _ => 40,
-                },
-                None => 40,
-            };
+        let min_luminance = match vars.get(vars::EXA_MIN_LUMINANCE) {
+            Some(var) => match var.to_string_lossy().parse() {
+                Ok(luminance) if (-100..=100).contains(&luminance) => luminance,
+                _ => 40,
+            },
+            None => 40,
+        };
 
         let mode = if let Some(w) = matches
             .get(&flags::COLOR_SCALE_MODE)?
@@ -503,7 +491,7 @@ impl ColorScaleOptions {
                     &flags::COLOR_SCALE,
                     OsString::from(word),
                 ))?,
-            };
+            }
         }
 
         Ok(options)

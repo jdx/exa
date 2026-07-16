@@ -24,6 +24,7 @@ pub type ino_t = u64;
 pub type nlink_t = u64;
 
 /// The type of a file’s timestamp (creation, modification, access, etc).
+#[allow(dead_code)]
 pub type time_t = i64;
 
 /// The type of a file’s user ID.
@@ -152,7 +153,7 @@ pub struct User(pub uid_t);
 #[derive(Copy, Clone)]
 pub struct Group(pub gid_t);
 
-/// A file’s size, in bytes. This is usually formatted by the `number_prefix`
+/// A file’s size, in bytes. This is usually formatted by the `unit_prefix`
 /// crate into something human-readable.
 #[derive(Copy, Clone)]
 pub enum Size {
@@ -191,6 +192,7 @@ pub struct DeviceIDs {
 }
 
 /// One of a file’s timestamps (created, accessed, or modified).
+#[allow(dead_code)]
 #[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Time {
     pub seconds: time_t,

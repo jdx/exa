@@ -55,7 +55,7 @@ impl ShowIcons {
             Automatic,
         }
 
-        let force_icons = vars.get(vars::EZA_ICONS_AUTO).is_some();
+        let force_icons = vars.get(vars::EXA_ICONS_AUTO).is_some();
         let mode_opt = matches.get(&flags::ICONS)?;
         if !force_icons && !matches.has(&flags::ICONS)? && mode_opt.is_none() {
             return Ok(Self::Never);
@@ -73,16 +73,13 @@ impl ShowIcons {
         };
 
         let width = if let Some(columns) = vars
-            .get_with_fallback(vars::EXA_ICON_SPACING, vars::EZA_ICON_SPACING)
+            .get(vars::EXA_ICON_SPACING)
             .and_then(|s| s.into_string().ok())
         {
             match columns.parse() {
                 Ok(width) => width,
                 Err(e) => {
-                    let source = NumberSource::Env(
-                        vars.source(vars::EXA_ICON_SPACING, vars::EZA_ICON_SPACING)
-                            .unwrap(),
-                    );
+                    let source = NumberSource::Env(vars::EXA_ICON_SPACING);
                     return Err(OptionsError::FailedParse(columns, source, e));
                 }
             }

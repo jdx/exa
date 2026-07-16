@@ -180,7 +180,7 @@ impl<'a> Render<'a> {
         );
 
         // If a minimum grid rows threshold has been set
-        // via the `EZA_GRID_ROWS` environment variable
+        // via the `EXA_GRID_ROWS` environment variable
         // and the grid is going to get rendered with fewer rows,
         // then render a details list view instead.
         if let RowThreshold::MinimumRows(minimum_rows) = self.row_threshold {

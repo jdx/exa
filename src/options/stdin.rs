@@ -1,5 +1,5 @@
 use crate::options::parser::MatchedFlags;
-use crate::options::vars::EZA_STDIN_SEPARATOR;
+use crate::options::vars::EXA_STDIN_SEPARATOR;
 use crate::options::{flags, OptionsError, Vars};
 use std::ffi::OsString;
 use std::io;
@@ -18,7 +18,7 @@ impl FilesInput {
                 FilesInput::Args
             } else if matches.has(&flags::STDIN)? && !io::stdin().is_terminal() {
                 let separator = vars
-                    .get(EZA_STDIN_SEPARATOR)
+                    .get(EXA_STDIN_SEPARATOR)
                     .unwrap_or(OsString::from("\n"));
                 FilesInput::Stdin(separator)
             } else {

@@ -179,7 +179,7 @@ fn update_information_recursively(
                 }
                 Err(e) => trace!("Unable to access directory {}: {}", file.name, e),
             }
-        };
+        }
     }
 }
 
@@ -197,7 +197,7 @@ impl Extremes {
                     range.max = value;
                 } else if value < range.min {
                     range.min = value;
-                };
+                }
             }
             (Some(value), rel) => {
                 let _ = rel.insert({
@@ -208,7 +208,7 @@ impl Extremes {
                 });
             }
             _ => (),
-        };
+        }
     }
 }
 

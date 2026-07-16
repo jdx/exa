@@ -29,7 +29,7 @@ impl Options {
 
 impl ThemeConfig {
     fn deduce<V: Vars>(vars: &V) -> Option<Self> {
-        if let Some(path) = vars.get("EZA_CONFIG_DIR") {
+        if let Some(path) = vars.get("EXA_CONFIG_DIR") {
             let path = PathBuf::from(path);
             let path = path.join("theme.yml");
             if path.exists() {
@@ -39,7 +39,7 @@ impl ThemeConfig {
             }
         } else {
             let path = dirs::config_dir().unwrap_or_default();
-            let path = path.join("eza").join("theme.yml");
+            let path = path.join("exa").join("theme.yml");
             if path.exists() {
                 Some(ThemeConfig::default())
             } else {
@@ -80,7 +80,7 @@ impl Definitions {
             .get(vars::LS_COLORS)
             .map(|e| e.to_string_lossy().to_string());
         let exa = vars
-            .get_with_fallback(vars::EZA_COLORS, vars::EXA_COLORS)
+            .get(vars::EXA_COLORS)
             .map(|e| e.to_string_lossy().to_string());
         Self { ls, exa }
     }
@@ -180,8 +180,7 @@ mod terminal_test {
         fn get(&self, name: &'static str) -> Option<OsString> {
             if name == vars::LS_COLORS && !self.ls.is_empty() {
                 Some(OsString::from(self.ls))
-            } else if (name == vars::EZA_COLORS || name == vars::EXA_COLORS) && !self.exa.is_empty()
-            {
+            } else if name == vars::EXA_COLORS && !self.exa.is_empty() {
                 Some(OsString::from(self.exa))
             } else if name == vars::NO_COLOR && !self.no_color.is_empty() {
                 Some(OsString::from(self.no_color))

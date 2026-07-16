@@ -1,0 +1,12 @@
+[workspace]
+git_only = true
+release_always = false
+pr_draft = false
+repo_url = "https://github.com/jdx/exa"
+semver_check = false
+git_release_draft = false
+git_release_name = "exa v{{ version }}"
+
+[changelog]
+protect_breaking_commits = true
+tag_pattern = "v[0-9].*"

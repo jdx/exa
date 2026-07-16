@@ -232,7 +232,7 @@ fn repo_to_statuses(repo: &git2::Repository, workdir: &Path) -> Git {
                 statuses.push(elem);
             }
             // We manually add the `.git` at the root of the repo as ignored, since it is in practice.
-            // Also we want to avoid `eza --tree --all --git-ignore` to display files inside `.git`.
+            // Also we want to avoid `exa --tree --all --git-ignore` to display files inside `.git`.
             statuses.push((workdir.join(".git"), git2::Status::IGNORED));
         }
         Err(e) => {
@@ -391,7 +391,7 @@ fn current_branch(repo: &git2::Repository) -> Option<String> {
     };
 
     if let Some(h) = head {
-        if let Some(s) = h.shorthand() {
+        if let Ok(s) = h.shorthand() {
             let branch_name = s.to_owned();
             if branch_name.len() > 10 {
                 return Some(branch_name[..8].to_string() + "..");

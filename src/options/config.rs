@@ -15,8 +15,8 @@ pub struct ThemeConfig {
 #[derive(Debug, Default, PartialEq, Eq)]
 pub enum ConfigLoc {
     #[default]
-    Default, // $XDG_CONFIG_HOME/eza/config|theme.yml
-    Env(PathBuf), // $EZA_CONFIG_DIR
+    Default, // $XDG_CONFIG_HOME/exa/config|theme.yml
+    Env(PathBuf), // $EXA_CONFIG_DIR
 }
 
 trait FromOverride<T>: Sized {
@@ -603,7 +603,7 @@ impl ThemeConfig {
     pub fn to_theme(&self) -> Option<UiStyles> {
         let ui_styles_override: Option<UiStylesOverride> = match &self.location {
             ConfigLoc::Default => {
-                let path = dirs::config_dir()?.join("eza").join("theme.yml");
+                let path = dirs::config_dir()?.join("exa").join("theme.yml");
                 let file = std::fs::File::open(path).ok()?;
                 serde_norway::from_reader(&file).ok()
             }

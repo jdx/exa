@@ -1,3 +1,5 @@
+#![allow(clippy::unnecessary_semicolon)]
+
 use crate::theme::lsc::Pair;
 use nu_ansi_term::{Color::*, Style};
 use serde::{Deserialize, Serialize};
@@ -521,7 +523,7 @@ impl UiStyles {
     }
 
     /// Sets a value on this set of colours using one of the keys understood
-    /// by the `EZA_COLORS` environment variable. Invalid keys set nothing,
+    /// by the `EXA_COLORS` environment variable. Invalid keys set nothing,
     /// but return false. This doesn’t take the `LS_COLORS` keys into account,
     /// so `set_ls` should have been run first.
     pub fn set_exa(&mut self, pair: &Pair<'_>) -> bool {

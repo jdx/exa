@@ -2,7 +2,6 @@
 
 use chrono::prelude::*;
 use core::cmp::max;
-use once_cell::sync::Lazy;
 use std::time::Duration;
 use unicode_width::UnicodeWidthStr;
 
@@ -20,7 +19,7 @@ use unicode_width::UnicodeWidthStr;
 /// own enum variants. It’s not worth looking the locale up if the formatter
 /// prints month names as numbers.
 ///
-/// Also, eza supports *custom* styles, where the user enters a
+/// Also, exa supports *custom* styles, where the user enters a
 /// format string in an environment variable or something. Just these four.
 #[derive(PartialEq, Eq, Debug, Clone)]
 pub enum TimeFormat {
@@ -134,12 +133,13 @@ fn custom(time: &DateTime<FixedOffset>, non_recent_fmt: &str, recent_fmt: Option
     }
 }
 
-static CURRENT_YEAR: Lazy<i32> = Lazy::new(|| Local::now().year());
+static CURRENT_YEAR: std::sync::LazyLock<i32> = std::sync::LazyLock::new(|| Local::now().year());
 
-static LOCALE: Lazy<locale::Time> =
-    Lazy::new(|| locale::Time::load_user_locale().unwrap_or_else(|_| locale::Time::english()));
+static LOCALE: std::sync::LazyLock<locale::Time> = std::sync::LazyLock::new(|| {
+    locale::Time::load_user_locale().unwrap_or_else(|_| locale::Time::english())
+});
 
-static MAX_MONTH_WIDTH: Lazy<usize> = Lazy::new(|| {
+static MAX_MONTH_WIDTH: std::sync::LazyLock<usize> = std::sync::LazyLock::new(|| {
     // Some locales use a three-character wide month name (Jan to Dec);
     // others vary between three to four (1月 to 12月, juil.). We check each month width
     // to detect the longest and set the output format accordingly.

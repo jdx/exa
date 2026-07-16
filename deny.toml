@@ -14,11 +14,9 @@
 
 # If 1 or more target triples (and optionally, target_features) are specified,
 # only the specified targets will be checked when running `cargo deny check`.
-# This means, if a particular package is only ever used as a target specific
-# dependency, such as, for example, the `nix` crate only being used via the
-# `target_family = "unix"` configuration, that only having windows targets in
-# this list would mean the nix crate, as well as any of its exclusive
-# dependencies not shared by any other crates, would be ignored, as the target
+# This means, if a particular package is only ever used as a target-specific
+# dependency, then selecting targets that do not use it will omit that package
+# and its exclusive dependencies from the graph, as the target
 # list here is effectively saying which targets you are building for.
 targets = [
   # The triple can be any string, but only the target triples built in to

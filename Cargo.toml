@@ -1,10 +1,10 @@
 [package]
-name = "eza"
+name = "exa"
 description = "A modern replacement for ls"
-authors = ["Christina Sørensen <christina@cafkafk.com>"]
+authors = ["jdx"]
 categories = ["command-line-utilities"]
 edition = "2021"
-rust-version = "1.70.0"
+rust-version = "1.88.0"
 exclude = [
   "/devtools/*",
   "/Justfile",
@@ -13,9 +13,10 @@ exclude = [
   "/tests",
 ]
 readme = "README.md"
-homepage = "https://github.com/eza-community/eza"
+homepage = "https://github.com/jdx/exa"
 license = "MIT"
-repository = "https://github.com/eza-community/eza"
+publish = false
+repository = "https://github.com/jdx/exa"
 version = "0.19.4"
 
 
@@ -23,51 +24,51 @@ version = "0.19.4"
 license-file = ["LICENCE", "4"]
 depends = "$auto"
 extended-description = """
-eza is a modern, maintained replacement for ls
+exa is a modern, maintained replacement for ls
 """
 section = "utils"
 priority = "optional"
 assets = [
   [
-    "target/release/eza",
-    "/usr/bin/eza",
+    "target/release/exa",
+    "/usr/bin/exa",
     "0755",
   ],
   [
-    "target/release/../man/eza.1",
-    "/usr/share/man/man1/eza.1",
+    "target/release/../man/exa.1",
+    "/usr/share/man/man1/exa.1",
     "0644",
   ],
   [
-    "target/release/../man/eza_colors.5",
-    "/usr/share/man/man5/eza_colors.5",
+    "target/release/../man/exa_colors.5",
+    "/usr/share/man/man5/exa_colors.5",
     "0644",
   ],
   [
-    "target/release/../man/eza_colors-explanation.5",
-    "/usr/share/man/man5/eza_colors-explanation.5",
+    "target/release/../man/exa_colors-explanation.5",
+    "/usr/share/man/man5/exa_colors-explanation.5",
     "0644",
   ],
   [
-    "completions/bash/eza",
-    "/usr/share/bash-completion/completions/eza",
+    "completions/bash/exa",
+    "/usr/share/bash-completion/completions/exa",
     "0644",
   ],
   [
-    "completions/zsh/_eza",
-    "/usr/share/zsh/site-functions/_eza",
+    "completions/zsh/_exa",
+    "/usr/share/zsh/site-functions/_exa",
     "0644",
   ],
   [
-    "completions/fish/eza.fish",
-    "/usr/share/fish/vendor_completions.d/eza.fish",
+    "completions/fish/exa.fish",
+    "/usr/share/fish/vendor_completions.d/exa.fish",
     "0644",
   ],
 ]
 
 
 [[bin]]
-name = "eza"
+name = "exa"
 
 
 [dependencies]
@@ -83,7 +84,7 @@ locale = "0.2"
 log = "0.4"
 natord = "1.0"
 path-clean = "1.0.1"
-number_prefix = "0.4"
+unit-prefix = "0.5.2"
 palette = { version = "0.7.6", default-features = false, features = ["std"] }
 once_cell = "1.19.0"
 percent-encoding = "2.3.1"
@@ -100,7 +101,7 @@ dirs = "5.0.1"
 serde_norway = "0.9"
 
 [dependencies.git2]
-version = "0.19"
+version = "0.21"
 optional = true
 default-features = false
 
@@ -128,14 +129,7 @@ default = ["git"]
 git = ["git2"]
 vendored-openssl = ["git2/vendored-openssl"]
 vendored-libgit2 = ["git2/vendored-libgit2"]
-# Should only be used inside of flake.nix
-nix = []
-# Should only be used inside of flake.nix locally (not on CI)
-nix-local = []
-# Should only be used inside of flake.nix
-# Shouldn't ever be used in CI (slow!)
 powertest = []
-nix-generated = []
 
 # use LTO for smaller binaries (that take longer to build)
 [profile.release]

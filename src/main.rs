@@ -15,6 +15,7 @@
 #![allow(clippy::match_same_arms)]
 #![allow(clippy::module_name_repetitions)]
 #![allow(clippy::non_ascii_literal)]
+#![allow(clippy::unnecessary_debug_formatting)]
 #![allow(clippy::option_if_let_else)]
 #![allow(clippy::too_many_lines)]
 #![allow(clippy::unused_self)]
@@ -51,7 +52,7 @@ fn main() {
         libc::signal(libc::SIGPIPE, libc::SIG_DFL);
     }
 
-    logger::configure(env::var_os(vars::EZA_DEBUG).or_else(|| env::var_os(vars::EXA_DEBUG)));
+    logger::configure(env::var_os(vars::EXA_DEBUG));
 
     let stdout_istty = io::stdout().is_terminal();
 
@@ -126,7 +127,7 @@ fn main() {
         }
 
         OptionsResult::InvalidOptions(error) => {
-            eprintln!("eza: {error}");
+            eprintln!("exa: {error}");
 
             if let Some(s) = error.suggestion() {
                 eprintln!("{s}");
@@ -188,7 +189,7 @@ fn git_options(options: &Options, args: &[&OsStr]) -> Option<GitCache> {
 
 #[cfg(not(feature = "git"))]
 fn git_repos(_options: &Options, _args: &[&OsStr]) -> bool {
-    return false;
+    false
 }
 
 #[cfg(feature = "git")]
@@ -242,7 +243,7 @@ fn git_repos(options: &Options, args: &[&OsStr]) -> bool {
     }
 }
 
-impl<'args> Exa<'args> {
+impl Exa<'_> {
     /// # Errors
     ///
     /// Will return `Err` if printing to stderr fails.
