@@ -31,7 +31,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - run: rustup toolchain install ${{ matrix.rust }} --profile minimal
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install ${{ matrix.rust }} --profile minimal
+          rustup default ${{ matrix.rust }}
       - uses: Swatinem/rust-cache@v2
       - name: Install cargo-hack
         uses: nick-fields/retry@v3

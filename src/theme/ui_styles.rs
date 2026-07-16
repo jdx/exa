@@ -1,3 +1,5 @@
+#![allow(clippy::unnecessary_semicolon)]
+
 use crate::theme::lsc::Pair;
 use nu_ansi_term::{Color::*, Style};
 use serde::{Deserialize, Serialize};
