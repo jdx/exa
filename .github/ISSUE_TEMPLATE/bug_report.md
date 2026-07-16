@@ -1,15 +1,15 @@
 ---
 name: Bug report
-about: Report a crash, runtime error, or invalid output in eza
+about: Report a crash, runtime error, or invalid output in exa
 title: 'bug: '
 labels: errors
 assignees: ''
 
 ---
 
-If eza does something unexpected, or its output looks wrong, or it displays an error on the screen, or if it outright crashes, then please include the following information in your report:
+If exa does something unexpected, or its output looks wrong, or it displays an error on the screen, or if it outright crashes, then please include the following information in your report:
 
-- The version of eza being used (`eza --version`)
+- The version of exa being used (`exa --version`)
 - The command-line arguments you are using
 - Your shell and terminal
 - Your operating system and hardware platform

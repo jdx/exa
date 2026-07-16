@@ -66,7 +66,7 @@ impl Options {
             let ui = UiStyles::plain();
             let exts = Box::new(NoFileStyle);
             return Theme { ui, exts };
-        };
+        }
         match self.theme_config {
             Some(ref theme) => {
                 if let Some(mut ui) = theme.to_theme() {
@@ -104,7 +104,7 @@ impl Definitions {
     /// colours into the `ExtensionMappings` that gets returned, and using the
     /// two-character UI codes to modify the mutable `Colours`.
     ///
-    /// Also returns if the `EZA_COLORS` variable should reset the existing file
+    /// Also returns if the `EXA_COLORS` variable should reset the existing file
     /// type mappings or not. The `reset` code needs to be the first one.
     fn parse_color_vars(&self, colours: &mut UiStyles) -> (ExtensionMappings, bool) {
         use log::*;
@@ -144,7 +144,7 @@ impl Definitions {
                             warn!("Couldn't parse glob pattern {:?}: {}", pair.key, e);
                         }
                     }
-                };
+                }
             });
         }
 
@@ -535,7 +535,7 @@ mod customs_test {
     test!(ls_ln:   ls "ln=34", exa ""  =>  colours c -> { c.filekinds().symlink      = Some(Blue.normal());   });
     test!(ls_or:   ls "or=33", exa ""  =>  colours c -> { c.broken_symlink         = Some(Yellow.normal()); });
 
-    // EZA_COLORS can affect all those colours too:
+    // EXA_COLORS can affect all those colours too:
     test!(exa_di:  ls "", exa "di=32"  =>  colours c -> { c.filekinds().directory    = Some(Green.normal());  });
     test!(exa_ex:  ls "", exa "ex=33"  =>  colours c -> { c.filekinds().executable   = Some(Yellow.normal()); });
     test!(exa_fi:  ls "", exa "fi=34"  =>  colours c -> { c.filekinds().normal       = Some(Blue.normal());   });
@@ -546,12 +546,12 @@ mod customs_test {
     test!(exa_ln:  ls "", exa "ln=33"  =>  colours c -> { c.filekinds().symlink      = Some(Yellow.normal()); });
     test!(exa_or:  ls "", exa "or=32"  =>  colours c -> { c.broken_symlink         = Some(Green.normal());  });
 
-    // EZA_COLORS will even override options from LS_COLORS:
+    // EXA_COLORS will even override options from LS_COLORS:
     test!(ls_exa_di: ls "di=31", exa "di=32"  =>  colours c -> { c.filekinds().directory  = Some(Green.normal());  });
     test!(ls_exa_ex: ls "ex=32", exa "ex=33"  =>  colours c -> { c.filekinds().executable = Some(Yellow.normal()); });
     test!(ls_exa_fi: ls "fi=33", exa "fi=34"  =>  colours c -> { c.filekinds().normal     = Some(Blue.normal());   });
 
-    // But more importantly, EZA_COLORS has its own, special list of colours:
+    // But more importantly, EXA_COLORS has its own, special list of colours:
     test!(exa_ur:  ls "", exa "ur=38;5;100"  =>  colours c -> { c.perms().user_read           = Some(Fixed(100).normal()); });
     test!(exa_uw:  ls "", exa "uw=38;5;101"  =>  colours c -> { c.perms().user_write          = Some(Fixed(101).normal()); });
     test!(exa_ux:  ls "", exa "ux=38;5;102"  =>  colours c -> { c.perms().user_execute_file   = Some(Fixed(102).normal()); });
@@ -659,7 +659,7 @@ mod customs_test {
     test!(exa_mp3: ls "", exa "lev.*=38;5;153"     =>  exts [ ("lev.*",      Fixed(153).normal())      ]);
     test!(exa_mak: ls "", exa "Cargo.toml=4;32;1"  =>  exts [ ("Cargo.toml", Green.bold().underline()) ]);
 
-    // Testing whether a glob from EZA_COLORS overrides a glob from LS_COLORS
+    // Testing whether a glob from EXA_COLORS overrides a glob from LS_COLORS
     // can’t be tested here, because they’ll both be added to the same vec
 
     // Values get separated by colons:
@@ -679,5 +679,5 @@ mod customs_test {
     test!(ls_fi_ls_txt:   ls "fi=33:*.txt=31", exa "" => colours c -> { c.filekinds().normal = Some(Yellow.normal()); }, exts [ ("*.txt", Red.normal()) ]);
     test!(ls_fi_exa_txt:  ls "fi=33", exa "*.txt=31"  => colours c -> { c.filekinds().normal = Some(Yellow.normal()); }, exts [ ("*.txt", Red.normal()) ]);
     test!(ls_txt_exa_fi:  ls "*.txt=31", exa "fi=33"  => colours c -> { c.filekinds().normal = Some(Yellow.normal()); }, exts [ ("*.txt", Red.normal()) ]);
-    test!(eza_fi_exa_txt: ls "", exa "fi=33:*.txt=31" => colours c -> { c.filekinds().normal = Some(Yellow.normal()); }, exts [ ("*.txt", Red.normal()) ]);
+    test!(exa_fi_exa_txt: ls "", exa "fi=33:*.txt=31" => colours c -> { c.filekinds().normal = Some(Yellow.normal()); }, exts [ ("*.txt", Red.normal()) ]);
 }

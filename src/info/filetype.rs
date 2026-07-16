@@ -45,7 +45,6 @@ const FILENAME_TYPES: Map<&'static str, FileType> = phf_map! {
     "Containerfile"      => FileType::Build,
     "Dockerfile"         => FileType::Build,
     "Earthfile"          => FileType::Build,
-    "flake.nix"          => FileType::Build,
     "Gemfile"            => FileType::Build,
     "GNUmakefile"        => FileType::Build,
     "Gruntfile.coffee"   => FileType::Build,

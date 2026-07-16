@@ -232,7 +232,7 @@ fn repo_to_statuses(repo: &git2::Repository, workdir: &Path) -> Git {
                 statuses.push(elem);
             }
             // We manually add the `.git` at the root of the repo as ignored, since it is in practice.
-            // Also we want to avoid `eza --tree --all --git-ignore` to display files inside `.git`.
+            // Also we want to avoid `exa --tree --all --git-ignore` to display files inside `.git`.
             statuses.push((workdir.join(".git"), git2::Status::IGNORED));
         }
         Err(e) => {

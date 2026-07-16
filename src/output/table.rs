@@ -12,7 +12,7 @@ use uzers::UsersCache;
 
 use crate::fs::feature::git::GitCache;
 use crate::fs::{fields as f, File};
-use crate::options::vars::EZA_WINDOWS_ATTRIBUTES;
+use crate::options::vars::EXA_WINDOWS_ATTRIBUTES;
 use crate::options::Vars;
 use crate::output::cell::TextCell;
 use crate::output::color_scale::ColorScaleInformation;
@@ -314,7 +314,7 @@ pub enum FlagsFormat {
 
 impl FlagsFormat {
     pub(crate) fn deduce<V: Vars>(vars: &V) -> FlagsFormat {
-        vars.get(EZA_WINDOWS_ATTRIBUTES)
+        vars.get(EXA_WINDOWS_ATTRIBUTES)
             .and_then(|v| match v.to_ascii_lowercase().to_str() {
                 Some("short") => Some(FlagsFormat::Short),
                 Some("long") => Some(FlagsFormat::Long),

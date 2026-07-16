@@ -1,7 +1,7 @@
 dump_dir: tests/ptests
 depth: 1
-binary: eza
-gen_binary: target/debug/eza
+binary: exa
+gen_binary: target/debug/exa
 args: tests/test_dir
 commands:
   ? - null # Meta options

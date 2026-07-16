@@ -602,7 +602,6 @@ const EXTENSION_ICONS: Map<&'static str, char> = phf_map! {
     "nimble"         => Icons::LANG_NIM,         // 
     "nims"           => Icons::LANG_NIM,         // 
     "ninja"          => '\u{f0774}',             // 󰝴
-    "nix"            => '\u{f313}',              // 
     "node"           => Icons::NODEJS,           // 
     "nu"             => Icons::SHELL_CMD,        // 
     "o"              => Icons::BINARY,           // 

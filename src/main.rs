@@ -51,7 +51,7 @@ fn main() {
         libc::signal(libc::SIGPIPE, libc::SIG_DFL);
     }
 
-    logger::configure(env::var_os(vars::EZA_DEBUG).or_else(|| env::var_os(vars::EXA_DEBUG)));
+    logger::configure(env::var_os(vars::EXA_DEBUG));
 
     let stdout_istty = io::stdout().is_terminal();
 
@@ -126,7 +126,7 @@ fn main() {
         }
 
         OptionsResult::InvalidOptions(error) => {
-            eprintln!("eza: {error}");
+            eprintln!("exa: {error}");
 
             if let Some(s) = error.suggestion() {
                 eprintln!("{s}");
@@ -242,7 +242,7 @@ fn git_repos(options: &Options, args: &[&OsStr]) -> bool {
     }
 }
 
-impl<'args> Exa<'args> {
+impl Exa<'_> {
     /// # Errors
     ///
     /// Will return `Err` if printing to stderr fails.

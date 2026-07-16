@@ -9,7 +9,7 @@ rm "$1" -rf;
 mkdir -p "$1";
 cd "$1" || exit;
 
-sudo groupadd -f eza_test
+sudo groupadd -f exa_test
 
 # BEGIN grid
 mkdir -p grid
@@ -88,7 +88,7 @@ chmod 001 perms/file2
 # BEGIN test_group
 mkdir -p group
 touch group/file --date=@0
-sudo chgrp eza_test group/file
+sudo chgrp exa_test group/file
 # END test_group
 
 # BEGIN test_size

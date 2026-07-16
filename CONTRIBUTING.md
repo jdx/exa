@@ -1,67 +1,38 @@
-# Contributing to eza
+# Contributing to exa
 
-If you'd like to contribute to eza, there are several things you should make
+If you'd like to contribute to exa, there are several things you should make
 sure to familiarize yourself with first.
 
-- Code of conduct [Contributor Covenant Code of Conduct](CODE_OF_CONDUCT.md)
 - Requirement of conformance to [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 - Requirement of conformance to [Semantic Versioning](https://semver.org/)
 - The [Security Policy](SECURITY.md)
 - [Free and Open Source (FOSS) software](https://www.gnu.org/philosophy/free-sw.en.html)
 
-## Hacking on eza
+## Hacking on exa
 
-It is strongly recommended that you install Nix for hacking on eza. We leverage
-nix  as a way to easily test and distribute eza to many users, and it allows us
-to provide multiple tools easily for developers. Instead of having to install
-each dependency manually and setting up a development environment, Nix allows
-you  to use the same environment as the devs use. 
-
-Therefore, it is useful that you have a version of Nix installed with the
-"experimental" feature flakes enabled. Further, to make hacking on eza as easy
-as possible for yourself, you'd do yourself a favor to install
-[direnv](https://direnv.net/).
-
-When you enter the eza repository, if you have `direnv` installed, you'll be
-prompted to allow it with `direnv allow`. Doing this will save you from having
-to manually enter the development environment each time you open the folder. If
-you don't have direnv installed however, you can run `nix develop` in a pinch,
-to enter the direnv.
-
-The development environment includes basic checks of conformance to conventional
-commits, cargo clippy lints, and much more.
-
-It also contains a pre-commit-hook making it a lot easier not to make potential
-mistakes that will unnecessarily delay getting your PRs accepted. Most
-importantly, it ensures your commits are conforming to conventional commits.
+Install a stable Rust toolchain. The repository also provides optional
+`pre-commit` hooks for formatting and Clippy checks.
 
 Some useful commands include:
-- `nix flake check`: checks everything is correct.
-- `nix build`: build eza.
-- `nix build .#test`: runs eza's cargo tests
-- `nix build .#clippy`: runs clippy on eza
-- `nix fmt`: automatically formats your code as required by flake cheks and
-  pre-commit-hooks.nix
-- `just itest`: runs integration tests
+- `cargo build`: build exa.
+- `cargo test --workspace`: run tests.
+- `cargo fmt --check`: check formatting.
+- `cargo clippy --workspace --all-targets --all-features -- -D warnings`: run lints.
 
-**For non-nix users,**
-There are traditional `pre-commit` hooks, which you can install with your system package manager or
-`brew|pip install pre-commit`, and run `pre-commit install -c .pre-commit-config-non-nix.yaml` in the root of the repository.
-Then these hooks will run automatically when you commit.
+To enable the optional hooks, install `pre-commit` and run
+`pre-commit install` in the repository root.
 
 The [just](https://github.com/casey/just) command runner can be used to run some
 helpful development commands, in a manner similar to `make`.  Run `just --list`
 to get an overview of what’s available.
 
-To compile the manual pages, you will need [pandoc](https://pandoc.org/), which
-the nix flake should have installed for you.  The `just man` command will
+To compile the manual pages, install [pandoc](https://pandoc.org). The `just man` command will
 compile the Markdown into manual pages, which it will place in the `target/man`
 directory.
 
-eza depends on [libgit2](https://github.com/rust-lang/git2-rs) for certain
+exa depends on [libgit2](https://github.com/rust-lang/git2-rs) for certain
 features.  If you’re unable to compile libgit2, you can opt out of Git support
-by running `cargo build --no-default-features`. Again, the nix flake should 
-have taken care of this for you, if not, please file an issue.
+by running `cargo build --no-default-features`.
 
 If you intend to compile for musl, you will need to use the flag
 `vendored-openssl` if you want to get the Git feature working.  The full command
@@ -82,11 +53,9 @@ If your PR introduces a flag, you MUST:
 - Add your option to the help flag
 - Add your option to the README.md
 
-Before submitting, you SHOULD have run `nix flake check` and ensured that all
-issues are addressed. For formatting issues, `nix fmt` will format the code for
-you. Most clippy issues can be resolved with `cargo clippy --fix` (although it
-might be educational to fix them yourself). If you have reuse issues, you can
-run the following command to annotate your code:
+Before submitting, run the formatting, lint, and test commands above and ensure
+all issues are addressed. `cargo fmt` fixes formatting, and many Clippy issues
+can be resolved with `cargo clippy --fix`.
 
 Here are the absolute basics:
 - your commit summary MUST follow conventional commits.
@@ -95,8 +64,7 @@ Here are the absolute basics:
 - your PR will need to pass CI and local `cargo test`.
 - you may be asked to refactor parts of your code by reviewers.
 
-Remember that no one here is an employee, and treat everyone with respect, as
-the code of conduct specifies. Also remember to be patient if it takes a while
+Treat everyone with respect. Also remember to be patient if it takes a while
 to get a response on your PR. Usually it doesn't, but there's only so many
 hours in a day, and if possible, there would be no delay. The delay alone is
 evidence of it's own necessity.
@@ -110,7 +78,7 @@ description and signature.
 For you commit messages, please use the first line for a brief summary what
 the commit changes. Try to stay within the 72 char limit and prepend what type
 of change. See the following list for some guidance:
-- feat: adds a new feature to eza
+- feat: adds a new feature to exa
 - feat(zsh): adds something to zsh completion
 - refactor: revises parts of the code
 - docs(readme): revise the README
@@ -160,7 +128,7 @@ Resolves: #129
 Ref: #473, #319
 
 Co-authored-by: 9glenda <plan9git@proton.me>
-Signed-off-by: Christina Sørensen <christina@cafkafk.com>
+Signed-off-by: Your Name <you@example.com>
 ```
 
 ### Additional Examples
@@ -174,7 +142,7 @@ Signed-off-by: Christina Sørensen <christina@cafkafk.com>
 ### Commit types
 
 - build: Changes that affect the build system or external dependencies (example libgit2)
-- ci: Changes to CI configuration files and scripts (example scopes: Nix, Vagrant, Docker)
+- ci: Changes to CI configuration files and scripts
 - chore: Changes which do not change source code or tests (example: changes to the build process, auxiliary tools, libraries)
 - docs: Documentation, README, completions, manpage only
 - feat: A new feature

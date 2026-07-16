@@ -1,36 +1,32 @@
 <div align="center">
 
-# eza
+# exa
 
 A modern replacement for ls.
 
-<a href="https://matrix.to/#/#eza-community:gitter.im"><img alt="Gitter" src="https://img.shields.io/gitter/room/eza-community/eza?logo=element&link=https%3A%2F%2Fapp.gitter.im%2F%23%2Froom%2F%23eza%3Agitter.im&link=Gitter%20matrix%20room%20for%20Eza" width=200></a>
-
-[![Built with Nix](https://img.shields.io/badge/Built_With-Nix-5277C3.svg?logo=nixos&labelColor=73C3D5)](https://nixos.org)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
-
-[![Unit tests](https://github.com/eza-community/eza/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/eza-community/eza/actions/workflows/unit-tests.yml)
-![Crates.io](https://img.shields.io/crates/v/eza?link=https%3A%2F%2Fcrates.io%2Fcrates%2Feza)
-![Crates.io](https://img.shields.io/crates/l/eza?link=https%3A%2F%2Fgithub.com%2Feza-community%2Feza%2Fblob%2Fmain%2FLICENCE)
+[![Unit tests](https://github.com/jdx/exa/actions/workflows/unit-tests.yml/badge.svg)](https://github.com/jdx/exa/actions/workflows/unit-tests.yml)
+[![Release](https://img.shields.io/github/v/release/jdx/exa)](https://github.com/jdx/exa/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENCE)
 
 </div>
 
-![eza demo gif](docs/images/screenshots.png)
+![exa demo gif](docs/images/screenshots.png)
 
 ---
 
-**eza** is a modern, maintained replacement for the venerable file-listing command-line program `ls` that ships with Unix and Linux operating systems, giving it more features and better defaults.
+**exa** is a modern, maintained replacement for the venerable file-listing command-line program `ls` that ships with Unix and Linux operating systems, giving it more features and better defaults.
 It uses colours to distinguish file types and metadata.
 It knows about symlinks, extended attributes, and Git.
 And it’s **small**, **fast**, and just **one single binary**.
 
-By deliberately making some decisions differently, eza attempts to be a more featureful, more user-friendly version of `ls`.
+By deliberately making some decisions differently, exa attempts to be a more featureful, more user-friendly version of `ls`.
 
 ---
 
-**eza** features not in exa (non-exhaustive):
+This repository continues the final MIT-licensed community codebase under the original
+**exa** name. It includes, among other improvements:
 
-- Fixes [“The Grid Bug”](https://github.com/eza-community/eza/issues/66#issuecomment-1656758327) introduced in exa 2021.
+- Fixes [“The Grid Bug”](https://github.com/jdx/exa/issues/66#issuecomment-1656758327) introduced in exa 2021.
 - Hyperlink support.
 - Mount point details.
 - Selinux context output.
@@ -46,26 +42,12 @@ Like seriously, we have a lot of good stuff.
 
 ---
 
-<a id="try-it">
-<h1>Try it!</h1>
-</a>
-
-### Nix ❄️
-
-If you already have Nix setup with flake support, you can try out eza with the `nix run` command:
-
-    nix run github:eza-community/eza
-
-Nix will build eza and run it.
-
-If you want to pass arguments this way, use e.g. `nix run github:eza-community/eza -- -ol`.
-
 # Installation
 
-eza is available for Windows, macOS and Linux. Platform and distribution
+exa is available for Windows, macOS and Linux. Platform and distribution
 specific installation instructions can be found in [INSTALL.md](INSTALL.md).
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/eza.svg?columns=3)](https://repology.org/project/eza/versions)
+[![Packaging status](https://repology.org/badge/vertical-allrepos/exa.svg?columns=3)](https://repology.org/project/exa/versions)
 
 ---
 
@@ -73,7 +55,7 @@ specific installation instructions can be found in [INSTALL.md](INSTALL.md).
 <h1>Command-line options</h1>
 </a>
 
-eza’s options are almost, but not quite, entirely unlike `ls`’s. Quick overview:
+exa’s options are almost, but not quite, entirely unlike `ls`’s. Quick overview:
 
 ## Display options
 
@@ -146,7 +128,7 @@ These options are available when running with `--long` (`-l`):
 - **--git-repos**: list each directory’s Git status, if tracked
 - **--git-repos-no-status**: list whether a directory is a Git repository, but not its status (faster)
 - **--no-git**: suppress Git status (always overrides `--git`, `--git-repos`, `--git-repos-no-status`)
-- **--time-style**: how to format timestamps. valid timestamp styles are ‘`default`’, ‘`iso`’, ‘`long-iso`’, ‘`full-iso`’, ‘`relative`’, or a custom style ‘`+<FORMAT>`’ (E.g., ‘`+%Y-%m-%d %H:%M`’ => ‘`2023-09-30 13:00`’. For more specifications on the format string, see the _`eza(1)` manual page_ and [chrono documentation](https://docs.rs/chrono/latest/chrono/format/strftime/index.html).).
+- **--time-style**: how to format timestamps. valid timestamp styles are ‘`default`’, ‘`iso`’, ‘`long-iso`’, ‘`full-iso`’, ‘`relative`’, or a custom style ‘`+<FORMAT>`’ (E.g., ‘`+%Y-%m-%d %H:%M`’ => ‘`2023-09-30 13:00`’. For more specifications on the format string, see the _`exa(1)` manual page_ and [chrono documentation](https://docs.rs/chrono/latest/chrono/format/strftime/index.html).).
 - **--total-size**: show recursive directory size
 - **--no-permissions**: suppress the permissions field
 - **-o**, **--octal-permissions**: list each file's permission in octal format
@@ -165,8 +147,8 @@ Some of the options accept parameters:
 
 
 See the `man` pages for further documentation of usage. They are available
-- online [in the repo](https://github.com/eza-community/eza/tree/main/man)
-- in your terminal via `man eza`, as of version [`[0.18.13] - 2024-04-25`](https://github.com/eza-community/eza/blob/main/CHANGELOG.md#01813---2024-04-25)
+- online [in the repo](https://github.com/jdx/exa/tree/main/man)
+- in your terminal via `man exa`, as of version [`[0.18.13] - 2024-04-25`](https://github.com/jdx/exa/blob/main/CHANGELOG.md#01813---2024-04-25)
 </details>
 
 
@@ -174,28 +156,21 @@ See the `man` pages for further documentation of usage. They are available
 <details>
 <summary>Click to expand</summary>
 
-**Eza** has recently added support for a `theme.yml` file, where you can specify all of the existing theme-ing options
+**Exa** supports a `theme.yml` file, where you can specify all of the existing theming options
 available for the `LS_COLORS` and `EXA_COLORS` environment variables, as well as the option to specify different icons
 for different file types and extensions. Any existing environment variables set will continue to work and will take
 precedence for backwards compatibility.
 
-#### **New** Pre-made themes
-Check out the themes available in the official [eza-themes](https://github.com/eza-community/eza-themes) repository, or contribute your own.
-
 An example theme file is available in `docs/theme.yml`, and needs to either be placed in a directory specified by the 
-environment variable `EZA_CONFIG_DIR`, or will looked for by default in `$XDG_CONFIG_HOME/eza`.
+environment variable `EXA_CONFIG_DIR`, or will looked for by default in `$XDG_CONFIG_HOME/exa`.
 
-Full details are available on the [man page](https://github.com/eza-community/eza/tree/main/man/eza_colors-explanation.5.md) and an example theme file is included [here](https://github.com/eza-community/eza/tree/main/docs/theme.yml)
+Full details are available on the [man page](https://github.com/jdx/exa/tree/main/man/exa_colors-explanation.5.md) and an example theme file is included [here](https://github.com/jdx/exa/tree/main/docs/theme.yml)
 
 </details>
 
 
-# Hacking on eza
+# Hacking on exa
 
-If you wanna contribute to eza, firstly, you're expected to follow our 
-[code of conduct](https://github.com/eza-community/eza/blob/main/CODE_OF_CONDUCT.md). 
-After having understood the code of conduct, you can have a look at our
-[CONTRIBUTING.md](https://github.com/eza-community/eza/blob/main/CONTRIBUTING.md) 
-for more info about actual hacking.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for build, test, and contribution instructions.
 
-[![Star History Chart](https://api.star-history.com/svg?repos=eza-community/eza&type=Date)](https://star-history.com/#eza-community/eza&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=jdx/exa&type=Date)](https://star-history.com/#jdx/exa&Date)

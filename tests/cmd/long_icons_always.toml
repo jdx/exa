@@ -1,2 +1,2 @@
-bin.name = "eza"
+bin.name = "exa"
 args = "tests/itest --long --icons=always"

@@ -11,7 +11,7 @@ cd "$1" || exit;
 
 # generate files of various age
 # TODO: some are commented out due to undeterministic behavior, see:
-# https://github.com/eza-community/eza/issues/574
+# https://github.com/jdx/exa/issues/574
 
 touch --date="13 month ago"  ./13_month
 #touch --date="11 month ago"  ./11_month

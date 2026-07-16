@@ -25,13 +25,13 @@ fi
 
 touch tests/cmd/"$1".toml
 
-echo 'bin.name = "eza"' >> tests/cmd/"$1".toml
+echo 'bin.name = "exa"' >> tests/cmd/"$1".toml
 echo 'args = "'"$2"'"' >> tests/cmd/"$1".toml
 
 # Generate expected output
 
-if [ -f target/debug/eza ]; then
-    target/debug/eza "$2" > tests/cmd/"$1".stdout 2> tests/cmd/"$1".stderr
+if [ -f target/debug/exa ]; then
+    target/debug/exa "$2" > tests/cmd/"$1".stdout 2> tests/cmd/"$1".stderr
     returncode=$?
     if [ $returncode -ne 0 ]; then
         echo -e 'status.code = '$returncode'' >> tests/cmd/"$1".toml

@@ -139,7 +139,7 @@ impl Options {
         use crate::options::parser::{Matches, Strictness};
 
         #[rustfmt::skip]
-        let strictness = match vars.get_with_fallback(vars::EZA_STRICT, vars::EXA_STRICT) {
+        let strictness = match vars.get(vars::EXA_STRICT) {
             None                         => Strictness::UseLastArguments,
             Some(ref t) if t.is_empty()  => Strictness::UseLastArguments,
             Some(_)                      => Strictness::ComplainAboutRedundantArguments,
@@ -225,7 +225,7 @@ impl Options {
 /// program execution and thus boxing the large variant will be a waste of
 /// resources, but should we come to use it more, we should reconsider.
 ///
-/// See <https://github.com/eza-community/eza/pull/437#issuecomment-1738470254>
+/// See <https://github.com/jdx/exa/pull/437#issuecomment-1738470254>
 #[allow(clippy::large_enum_variant)]
 #[derive(Debug)]
 pub enum OptionsResult<'args> {

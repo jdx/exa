@@ -1,0 +1,118 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Publish release
+    runs-on: ubuntu-latest
+    if: github.repository == 'jdx/exa'
+    outputs:
+      created: ${{ steps.release-plz.outputs.releases_created }}
+      tag: ${{ steps.release-meta.outputs.tag }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Run release-plz
+        id: release-plz
+        uses: release-plz/action@v0.5.131
+        with:
+          command: release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Read release metadata
+        id: release-meta
+        if: steps.release-plz.outputs.releases_created == 'true'
+        env:
+          RELEASES: ${{ steps.release-plz.outputs.releases }}
+        run: echo "tag=$(jq -r '.[0].tag' <<< "$RELEASES")" >> "$GITHUB_OUTPUT"
+
+  release-pr:
+    name: Prepare release PR
+    runs-on: ubuntu-latest
+    if: github.repository == 'jdx/exa'
+    concurrency:
+      group: release-plz-${{ github.ref }}
+      cancel-in-progress: false
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+      - name: Run release-plz
+        uses: release-plz/action@v0.5.131
+        with:
+          command: release-pr
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  artifacts:
+    name: Build ${{ matrix.target }}
+    needs: release
+    if: needs.release.outputs.created == 'true'
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            binary: exa
+          - runner: macos-15-intel
+            target: x86_64-apple-darwin
+            binary: exa
+          - runner: macos-15
+            target: aarch64-apple-darwin
+            binary: exa
+          - runner: windows-latest
+            target: x86_64-pc-windows-msvc
+            binary: exa.exe
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - name: Checkout released source
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ needs.release.outputs.tag }}
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+      - name: Build release binary
+        run: cargo build --locked --release --target ${{ matrix.target }}
+      - name: Package and upload binary
+        shell: bash
+        env:
+          BINARY: ${{ matrix.binary }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ needs.release.outputs.tag }}
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -euo pipefail
+          archive="exa-${TAG}-${TARGET}.tar.gz"
+          stage="exa-${TAG}-${TARGET}"
+          mkdir "$stage"
+          cp "target/${TARGET}/release/${BINARY}" "$stage/"
+          cp LICENCE "$stage/"
+          tar -czf "$archive" "$stage"
+          if command -v sha256sum >/dev/null; then
+            sha256sum "$archive" > "${archive}.sha256"
+          else
+            shasum -a 256 "$archive" > "${archive}.sha256"
+          fi
+          gh release upload "$TAG" "$archive" "${archive}.sha256" --clobber

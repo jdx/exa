@@ -33,7 +33,7 @@ jobs:
           prepare: |
             pkg install -y rust git
             cargo install cargo-hack
-            git config --global --add safe.directory /home/runner/work/eza/eza
+            git config --global --add safe.directory /home/runner/work/exa/exa
           run: |
             set -e
             export CARGO_TERM_COLOR="always"
@@ -60,7 +60,7 @@ jobs:
             /usr/sbin/pkg_add pkgin
             pkgin -y install rust git
             cargo install cargo-hack
-            git config --global --add safe.directory /home/runner/work/eza/eza
+            git config --global --add safe.directory /home/runner/work/exa/exa
           run: |
             set -e
             export CARGO_TERM_COLOR="always"
@@ -83,7 +83,7 @@ jobs:
           prepare: |
             pkg_add rust rust-rustfmt rust-clippy git
             cargo install cargo-hack
-            git config --global --add safe.directory /home/runner/work/eza/eza
+            git config --global --add safe.directory /home/runner/work/exa/exa
           run: |
             set -e
             export CARGO_TERM_COLOR="always"
